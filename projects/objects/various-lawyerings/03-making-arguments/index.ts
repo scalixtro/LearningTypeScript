@@ -1,9 +1,44 @@
 // Write your types here! ✨
+export type Allowed = {
+	deliberationHours: number;
+	status: "allowed";
+};
+
+export type Denied = {
+	annoyedJustice: boolean;
+	deliberationHours: number;
+	status: "denied";
+};
+
+export type Pending = {
+	deliberationHours: number;
+	status: "pending";
+};
+
+export type PreTrial = {
+	classification: "dismissals" | "suppressions" | "venue changes";
+	step: "pre-trial";
+};
+
+export type PostTrial = {
+	classification: "corrections" | "acquittals" | "new trials";
+	step: "post-trial";
+};
+
+export type MotionStatus = Allowed | Denied | Pending;
+export type MotionStep = PreTrial | PostTrial;
+
+export type Motion =
+	| MotionStatus
+	| (MotionStep & {
+			from: "defendant" | "plaintiff";
+			reason: string;
+	  });
 
 export const motions: Motion[] = [
 	{
 		annoyedJustice: true,
-		classification: "acquittal",
+		classification: "acquittals",
 		deliberationHours: 1,
 		from: "defendant",
 		reason: "The heretofore document had dried ink on it.",
@@ -12,7 +47,7 @@ export const motions: Motion[] = [
 	},
 	{
 		annoyedJustice: true,
-		classification: "correction",
+		classification: "corrections",
 		deliberationHours: 2.5,
 		from: "plaintiff",
 		reason: "The tenant has ninety days to vacate.",
@@ -20,7 +55,7 @@ export const motions: Motion[] = [
 		step: "post-trial",
 	},
 	{
-		classification: "suppress",
+		classification: "suppressions",
 		deliberationHours: 4,
 		from: "plaintiff",
 		reason: "Frank was never allowed in the house.",
@@ -28,8 +63,8 @@ export const motions: Motion[] = [
 		step: "pre-trial",
 	},
 	{
-		classification: "new trial",
-		estimatedDeliberationHours: 3,
+		classification: "new trials",
+		deliberationHours: 3,
 		from: "defendant",
 		reason: "The duel's been accepted. There's no backing out. That's the law.",
 		status: "pending",
@@ -37,7 +72,7 @@ export const motions: Motion[] = [
 	},
 	{
 		annoyedJustice: false,
-		classification: "dismiss",
+		classification: "dismissals",
 		deliberationHours: 0.5,
 		from: "plaintiff",
 		reason:
@@ -47,7 +82,7 @@ export const motions: Motion[] = [
 	},
 	{
 		annoyedJustice: true,
-		classification: "correction",
+		classification: "corrections",
 		deliberationHours: 1.5,
 		from: "defendant",
 		reason: "Fillibuster?",
@@ -56,7 +91,7 @@ export const motions: Motion[] = [
 	},
 	{
 		annoyedJustice: true,
-		classification: "venue",
+		classification: "venue changes",
 		deliberationHours: 0.25,
 		from: "defendant",
 		reason: "A time was never specified for the duel.",
@@ -65,7 +100,7 @@ export const motions: Motion[] = [
 	},
 	{
 		annoyedJustice: true,
-		classification: "correction",
+		classification: "corrections",
 		deliberationHours: 5,
 		from: "plaintiff",
 		reason: "He's making a few good points!",
